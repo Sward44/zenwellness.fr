@@ -1,0 +1,31 @@
+{
+  "name": "zenwellness.fr",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "NODE_ENV=production node server.js",
+    "generate": "gqty generate",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@faustjs/core": "^0.15.13",
+    "@faustjs/next": "^0.16.0",
+    "next": "15.1.7",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@gqty/cli": "^4.2.5",
+    "@tailwindcss/postcss": "^4.0.8",
+    "dotenv": "^16.4.7",
+    "eslint": "^9",
+    "eslint-config-next": "15.1.7",
+    "postcss": "^8",
+    "prettier": "^3.5.2",
+    "prettier-plugin-tailwindcss": "^0.6.11",
+    "tailwindcss": "^4.0.8"
+  }
+}

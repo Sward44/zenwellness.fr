@@ -1,0 +1,9 @@
+import "./globals.css";
+
+// import  { AppProps /*, AppContext */ } from 'next/app';
+
+function MyApp({ Component, pageProps }) {
+  return <Component {...pageProps} />;
+}
+
+export default MyApp;
