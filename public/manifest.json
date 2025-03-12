@@ -1,0 +1,53 @@
+{
+  "short_name": "Zenwellness",
+  "name": "Zenwellness : patch Natural Detox™",
+  "description": "Zenwellness propose des patchs Natural Detox™ pour un bien-être naturel.",
+  "lang": "fr",
+  "prefer_related_applications": false,
+  "author": "David Launay",
+  "manifest-version": 3,
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "48x48",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "zenwellness-favicon.svg",
+      "sizes": "any",
+      "type": "image/xml+svg"
+    },
+    {
+      "src": "android-chrome-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "android-chrome-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    },
+    {
+      "src": "apple-touch-icon.png",
+      "type": "image/png",
+      "sizes": "180x180"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Boutique",
+      "url": "/shop",
+      "description": "Accéder directement à la boutique Natural Detox™"
+    },
+    {
+      "name": "Contact",
+      "url": "/contact",
+      "description": "Nous contacter"
+    }
+  ],
+  "categories": ["health", "wellness", "shopping"],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}

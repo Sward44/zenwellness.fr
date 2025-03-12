@@ -10,9 +10,9 @@
 @theme {
   --color-*: initial;
   --color-blanc: #f5f5f5;
-  --color-jaune: #ffe699;
-  --color-vert: #839753;
-  --color-vert-foncer: #649644;
+  --color-jaune: #f7e47b;
+  --color-vert: #518a2c;
+  --color-vert-foncer: #376618;
   --font-raleway: Raleway, "sans-serif";
   --font-segoe: Segoe, "sans-serif";
 }

@@ -1,0 +1,253 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                  Int           @id @default(autoincrement()) @db.UnsignedSmallInt
+  username            String        @unique @db.VarChar(60)
+  password            String        @db.VarChar(120)
+  firstName           String?       @db.VarChar(40)
+  lastName            String?       @db.VarChar(40)
+  role                Role          @default(CLIENT)
+  email               Email[]
+  phone               Phone[]
+  address             Address[]
+  account             Account[]
+  session             Session[]
+  orders              Order[]
+  review              Review[]
+  comments            Comments[]
+  createdAt           DateTime      @db.Timestamp
+  updatedAt           DateTime      @updatedAt @db.Timestamp
+}
+
+model Email {
+  id                  Int           @id @default(autoincrement()) @db.UnsignedSmallInt
+  userId              Int           @db.UnsignedSmallInt 
+  email               String        @unique @db.VarChar(255)
+  emailVerified       DateTime?     @db.Timestamp
+  defaultEmail        Boolean
+  user                User          @relation(fields: [userId], references: [id])
+}
+
+model Phone {
+  id                  Int           @id @default(autoincrement()) @db.UnsignedSmallInt
+  userId              Int           @db.UnsignedSmallInt
+  phone               String?       @unique @db.VarChar(20)
+  defaultPhone        Boolean
+  user                User          @relation(fields: [userId], references: [id])
+}
+
+model Address {
+  id                  Int           @id @default(autoincrement()) @db.UnsignedSmallInt
+  userId              Int           @db.UnsignedSmallInt
+  voie                String        @db.VarChar(120)
+  codePostal          Int           @db.UnsignedSmallInt
+  ville               String        @db.VarChar(45)
+  pays                String        @db.VarChar(30)
+  defaultAddr         Boolean
+  user                User          @relation(fields: [userId], references: [id])
+}
+
+model Account {
+  id                  String        @id @default(cuid())
+  userId              Int           @db.UnsignedSmallInt
+  type                String
+  provider            String
+  providerAccountId   String
+  refresh_token       String?       @db.Text
+  access_token        String?       @db.Text
+  expires_at          Int?
+  token_type          String?
+  scope               String?
+  id_token            String?       @db.Text
+  session_state       String?
+  refresh_token_expires_in Int?
+  createdAt           DateTime     @db.Timestamp
+  updatedAt           DateTime     @updatedAt @db.Timestamp
+  user                User         @relation(fields: [userId], references: [id])
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id                  String       @id @default(cuid())
+  userId              Int          @db.UnsignedSmallInt
+  sessionToken        String       @unique
+  expires             DateTime     @db.Timestamp
+  createdAt           DateTime     @db.Timestamp
+  updatedAt           DateTime     @updatedAt @db.Timestamp
+  user                User         @relation(fields: [userId], references: [id])
+}
+
+model VerificationToken {
+  identifier          String
+  token               String
+  expires             DateTime
+ 
+  @@unique([identifier, token])
+}
+
+model Product {
+  id                  Int           @id @default(autoincrement()) @db.UnsignedSmallInt
+  name                String        @db.VarChar(32)
+  variantName        Variant
+  description         String?
+  price               Decimal
+  imageUrl            String?
+  orderItem           OrderItem[]
+  review              Review[]
+  stock               Stock[]
+  createdAt           DateTime      @db.Timestamp
+  updatedAt           DateTime      @updatedAt @db.Timestamp
+
+  
+}
+
+model Order {
+  id                  Int           @id @default(autoincrement()) @db.UnsignedSmallInt
+  userId              Int           @db.UnsignedSmallInt
+  total               Decimal
+  status              OrderStatus   @default(PENDING)
+  trackingCode        String?
+  orderItem           OrderItem[]
+  createdAt           DateTime      @db.Timestamp
+  updatedAt           DateTime      @updatedAt @db.Timestamp
+  user                User?         @relation(fields: [userId], references: [id])
+}
+
+model OrderItem {
+  id                  Int           @id @default(autoincrement())
+  orderId             Int           @db.UnsignedSmallInt
+  productId           Int           @db.UnsignedSmallInt
+  quantity            Int
+  price               Decimal
+  order               Order         @relation(fields: [orderId], references: [id])
+  product             Product       @relation(fields: [productId], references: [id])
+}
+
+model Review {
+  id                  Int           @id @default(autoincrement()) @db.UnsignedSmallInt
+  userId              Int           @db.UnsignedSmallInt
+  productId           Int           @db.UnsignedSmallInt
+  title               String        @db.VarChar(45)
+  description         String        @db.VarChar(600)
+  rating              Int           @db.TinyInt
+  link_url            String?       @db.VarChar(250)
+  isReview            Boolean
+  createdAt           DateTime
+  user                User          @relation(fields: [userId], references: [id])
+  product             Product       @relation(fields: [productId], references: [id])
+}
+
+model Comments {
+  id                  Int           @id @default(autoincrement()) @db.UnsignedSmallInt
+  userId              Int           @db.UnsignedSmallInt
+  title               String        @db.VarChar(45)
+  description         String        @db.VarChar(600)
+  isComments          Boolean
+  createdAt           DateTime
+  user                User          @relation(fields: [userId], references: [id])
+}
+
+model Stock {
+  id                  Int           @id @default(autoincrement()) @db.UnsignedSmallInt
+  productId           Int           @db.UnsignedSmallInt
+  variant_name        Variant
+  cost_per_unit       Decimal
+  nb_restant          Int           @db.UnsignedSmallInt
+  purchase            Purchase[]
+  product             Product       @relation(fields: [productId], references: [id])
+}
+
+model Purchase {
+  id                  Int           @id @default(autoincrement()) @db.UnsignedSmallInt
+  stockId             Int           @db.UnsignedSmallInt
+  quantity            Int
+  total_cost          Decimal
+  Purchase            DateTime      @db.Timestamp
+  log_prev_min        DateTime      @db.Timestamp
+  log_prev_max        DateTime      @db.Timestamp
+  log_reel            DateTime?     @db.Timestamp
+  stock               Stock         @relation(fields: [stockId], references: [id])
+}
+
+model Meta {
+  id                  Int           @id @default(autoincrement()) @db.UnsignedSmallInt
+  title               String        
+  description         String
+  keyword             String
+  url                 String
+  images              String
+  imgUrl              String
+  alt                 String
+  width               Int           @db.UnsignedSmallInt
+  height              Int           @db.UnsignedSmallInt
+  createdAt           DateTime      @db.Timestamp
+  updatedAt           DateTime      @updatedAt @db.Timestamp
+}
+
+model Page {
+  id                  Int           @id @default(autoincrement()) @db.UnsignedSmallInt
+  title               String        @db.VarChar(45)
+  url                 String
+  sousPage            SousPage[]
+  createdAt           DateTime      @db.Timestamp
+  updatedAt           DateTime      @updatedAt @db.Timestamp
+}
+
+model SousPage {
+  id                  Int           @id @default(autoincrement()) @db.UnsignedSmallInt
+  pageId              Int           @db.UnsignedSmallInt
+  title               String?       @db.VarChar(45)
+  description         String
+  urlImg              String?
+  altUrl              String?
+  index               Int           @db.UnsignedSmallInt
+  page                Page          @relation(fields: [pageId], references: [id])
+}
+
+model Blog {
+  id                  Int           @id @default(autoincrement()) @db.UnsignedSmallInt
+  title               String        @db.VarChar(45)
+  url                 String
+  sousBlog            SousBlog[]
+  createdAt           DateTime      @db.Timestamp
+  updatedAt           DateTime      @updatedAt @db.Timestamp
+}
+
+model SousBlog {
+  id                  Int           @id @default(autoincrement()) @db.UnsignedSmallInt
+  blogId              Int           @db.UnsignedSmallInt
+  title               String?       @db.VarChar(45)
+  description         String
+  urlImg              String?
+  altUrl              String?
+  index               Int           @db.UnsignedSmallInt
+  blog                Blog          @relation(fields: [blogId], references: [id])
+}
+
+enum Role {
+  ADMIN
+  AMBASSADEUR
+  CLIENT
+}
+
+enum Variant {
+  PATCH
+  PACKAGING
+  ENVELLOPE
+  LETTRE
+}
+
+enum OrderStatus {
+  PENDING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
