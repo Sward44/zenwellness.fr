@@ -1,21 +1,22 @@
 "use client";
-import { useState, useEffect, useCallback } from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
-import Container from "@mui/material/Container";
-import Tooltip from "@mui/material/Tooltip";
-import MenuItem from "@mui/material/MenuItem";
-import { Zenwellness } from "@/components/logos/Logos";
-import { useContext } from "react";
-import { ThemeModeContext } from "@/components/theme/AppThemeProvider";
+import { useState, useEffect, useCallback, useContext } from "react";
+import {
+  AppBar,
+  Box,
+  Container,
+  IconButton,
+  Menu,
+  MenuItem,
+  Toolbar,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import MenuIcon from "@mui/icons-material/Menu";
+import { Zenwellness } from "@/components/logos/Logos";
+import { ThemeModeContext } from "@/components/theme/AppThemeProvider";
 
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
@@ -24,6 +25,8 @@ function Header() {
   const [visible, setVisible] = useState(true);
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const { mode, setMode } = useContext(ThemeModeContext);
+  // const { openModal } = useAuthModal();
+  // const { data: session } = useSession();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -48,11 +51,15 @@ function Header() {
     setMode(newMode);
   }, [mode, setMode]);
 
+  const handleLogout = () => {
+    signOut({ callbackUrl: "/" });
+  };
+
   return (
     <AppBar
       position="fixed"
       sx={{
-        bgcolor: "var(--mui-palette-background-paper)", // Forcer l'utilisation de primary.main
+        bgcolor: "var(--mui-palette-background-paper)",
         transitionProperty: "transform",
         transitionDuration: "300ms",
         transform: visible ? "translateY(0%)" : "translateY(-100%)",
@@ -95,28 +102,31 @@ function Header() {
                 )}
               </IconButton>
             </Tooltip>
-            <Tooltip title="Ouvrir paramètres">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <AccountCircleOutlinedIcon sx={{}} />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{ vertical: "top", horizontal: "right" }}
-              keepMounted
-              transformOrigin={{ vertical: "top", horizontal: "right" }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography sx={{ textAlign: "center" }}>
-                    {setting}
-                  </Typography>
-                </MenuItem>
-              ))}
-            </Menu>
+            {session ? (
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{ vertical: "top", horizontal: "right" }}
+                keepMounted
+                transformOrigin={{ vertical: "top", horizontal: "right" }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+              >
+                {settings.map((setting) => (
+                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                    <Typography sx={{ textAlign: "center" }}>
+                      {setting}
+                    </Typography>
+                  </MenuItem>
+                ))}
+              </Menu>
+            ) : (
+              <Tooltip title="Se connecter">
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <AccountCircleOutlinedIcon sx={{}} />
+                </IconButton>
+              </Tooltip>
+            )}
             <IconButton size="large" edge="start" aria-label="menu" sx={{}}>
               <MenuIcon />
             </IconButton>

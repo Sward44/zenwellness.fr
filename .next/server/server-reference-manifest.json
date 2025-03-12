@@ -1,1 +1,5 @@
-{"node":{"009186c365e188123d683c9b7d8100b6e293e5825c":{"workers":{"app/posts/page":{"moduleId":"4107","async":false}},"layer":{"app/posts/page":"rsc"}}},"edge":{},"encryptionKey":"kHzM0Um0IuL4Bx6igr2LnqGx9JCqKu55VvexSZOlHng="}
+{
+  "node": {},
+  "edge": {},
+  "encryptionKey": "kHzM0Um0IuL4Bx6igr2LnqGx9JCqKu55VvexSZOlHng="
+}

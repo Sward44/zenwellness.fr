@@ -8,7 +8,7 @@ import { ambassadeur, admin } from "@/utils/Habilitation";
 export const authOptions = {
   adapter: PrismaAdapter(prisma),
   pages: {
-    signIn: "/connexion",
+    signIn: "/",
   },
   session: {
     strategy: "jwt",
@@ -18,8 +18,8 @@ export const authOptions = {
   },
   providers: [
     GoogleProvider({
-      clientId: process.env.GOOGLE_ID,
-      clientSecret: process.env.GOOGLE_SECRET,
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       allowDangerousEmailAccountLinking: true,
     }),
     CredentialsProvider({
@@ -36,10 +36,9 @@ export const authOptions = {
         },
       },
       async authorize(credentials) {
-        await connectMongoose();
-        const user = await UserModel.findOne({ email: credentials?.username })
-          .lean()
-          .exec();
+        const user = await prisma.Email.findUnique({
+          email: credentials?.username,
+        });
         if (!user) {
           throw new Error("L'email n'est pas enregistré...");
         } else if (user?.emailVerified === null) {
@@ -65,7 +64,7 @@ export const authOptions = {
   callbacks: {
     async jwt({ token, user, account, profile }) {
       if (user && account?.provider === "google") {
-        const userPerso = await prisma.Email.findMany({
+        const userPerso = await prisma.Email.findUnique({
           where: { email: profile.email },
         });
         let role;
