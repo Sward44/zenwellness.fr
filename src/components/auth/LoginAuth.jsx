@@ -18,7 +18,6 @@ export default function LoginModal() {
 
   const handleGoogleLogin = () => {
     signIn("google", { callbackUrl: "/" });
-    // closeModal() n'est pas nécessaire ici car Next-Auth gère la redirection
   };
 
   const handleEmailLogin = async (event) => {

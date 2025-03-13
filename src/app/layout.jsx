@@ -3,11 +3,13 @@ import AppThemeProvider from "@/components/theme/AppThemeProvider";
 import InitColorSchemeScript from "@mui/material/InitColorSchemeScript";
 import { AuthModalProvider } from "@/contexts/AuthModalContext";
 import { Header } from "@/components/header";
-import { SessionProvider } from "next-auth/react";
-// import { getServerSession } from "next-auth";
+import AuthProvider from "@/utils/SessionProvider";
+import LoginModal from "@/components/auth/LoginAuth";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/authOptions";
 
 export default function RootLayout({ children }) {
-  // const session = getServerSession(authOptions);
+  const session = getServerSession(authOptions);
 
   return (
     <html lang="fr-FR" suppressHydrationWarning>
@@ -15,13 +17,13 @@ export default function RootLayout({ children }) {
         <AppRouterCacheProvider options={{ enableCssLayer: true }}>
           <AppThemeProvider>
             <InitColorSchemeScript attribute="class" defaultMode="dark" />
-            <SessionProvider>
+            <AuthProvider>
               <AuthModalProvider>
-                <Header />
+                <Header session={session} />
                 {children}
                 <LoginModal />
               </AuthModalProvider>
-            </SessionProvider>
+            </AuthProvider>
           </AppThemeProvider>
         </AppRouterCacheProvider>
       </body>

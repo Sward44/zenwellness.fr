@@ -20,7 +20,7 @@ import { ThemeModeContext } from "@/components/theme/AppThemeProvider";
 
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
-function Header() {
+function Header({ session }) {
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [visible, setVisible] = useState(true);
   const [prevScrollPos, setPrevScrollPos] = useState(0);
