@@ -13,10 +13,12 @@ import {
 } from "@mui/material";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
-import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import ExitToAppOutlinedIcon from "@mui/icons-material/ExitToAppOutlined";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Zenwellness } from "@/components/logos/Logos";
 import { ThemeModeContext } from "@/components/theme/AppThemeProvider";
+import { useAuthModal } from "@/contexts/AuthModalContext";
+import { signOut } from "next-auth/react";
 
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
@@ -25,8 +27,7 @@ function Header({ session }) {
   const [visible, setVisible] = useState(true);
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const { mode, setMode } = useContext(ThemeModeContext);
-  // const { openModal } = useAuthModal();
-  // const { data: session } = useSession();
+  const { openModal } = useAuthModal();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -102,7 +103,7 @@ function Header({ session }) {
                 )}
               </IconButton>
             </Tooltip>
-            {session ? (
+            {!session ? (
               <Menu
                 id="menu-appbar"
                 anchorEl={anchorElUser}
@@ -122,8 +123,8 @@ function Header({ session }) {
               </Menu>
             ) : (
               <Tooltip title="Se connecter">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <AccountCircleOutlinedIcon sx={{}} />
+                <IconButton sx={{ p: 0 }} onClick={openModal}>
+                  <ExitToAppOutlinedIcon />
                 </IconButton>
               </Tooltip>
             )}

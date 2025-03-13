@@ -72,6 +72,13 @@ const AppThemeProvider = ({ children }) => {
               }),
             },
           },
+          MuiOutlinedInput: {
+            styleOverrides: {
+              root: ({ ownerState, theme }) => ({
+                WebkitBoxShadow: "var(--mui-palette-background-default)",
+              }),
+            },
+          },
         },
         cssVariables: {
           colorSchemeSelector: "class",
@@ -85,7 +92,7 @@ const AppThemeProvider = ({ children }) => {
                   main: "#376618", // Vert pour dark
                   dark: "#2C5114",
                   light: "#66B830",
-                  contrastText: "#376618",
+                  contrastText: "#0a0a0a",
                 },
                 secondary: {
                   main: "#ffd600", // Jaune
@@ -102,7 +109,7 @@ const AppThemeProvider = ({ children }) => {
                   main: "#376618", // Vert pour dark
                   dark: "#2C5114",
                   light: "#66B830",
-                  contrastText: "#66B830",
+                  contrastText: "#fafafa",
                 },
                 secondary: {
                   main: "#ffd600", // Jaune

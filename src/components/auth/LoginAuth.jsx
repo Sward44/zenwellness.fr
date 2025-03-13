@@ -9,7 +9,7 @@ import {
   Box,
   Typography,
 } from "@mui/material";
-import GoogleIcon from "@mui/icons-material/Google";
+import { Google, ZenwellnessFavicon } from "@/components/logos/Logos";
 import { useAuthModal } from "@/contexts/AuthModalContext";
 import { signIn } from "next-auth/react";
 
@@ -42,33 +42,62 @@ export default function LoginModal() {
       <DialogTitle>Connexion</DialogTitle>
       <DialogContent>
         <Box sx={{ display: "flex", flexDirection: "column", gap: 2, mt: 1 }}>
-          <Button
-            variant="outlined"
-            startIcon={<GoogleIcon />}
-            onClick={handleGoogleLogin}
-            sx={{ textTransform: "none" }}
-          >
-            Se connecter avec Google
-          </Button>
-          <Typography align="center" color="text.secondary">
-            ou
-          </Typography>
           <form onSubmit={handleEmailLogin}>
             <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
               <TextField
-                label="Adresse e-mail"
+                label="Email"
                 name="email"
                 type="email"
                 required
                 fullWidth
+                color="var(--mui-palette-primary-contrastText)"
               />
               <TextField
                 label="Mot de passe"
                 name="password"
                 type="password"
                 fullWidth
+                color="var(--mui-palette-primary-contrastText)"
               />
-              <Button type="submit" variant="contained" fullWidth>
+              <Button
+                type="submit"
+                startIcon={
+                  <ZenwellnessFavicon
+                    sx={{
+                      width: { xs: 20 },
+                      height: { xs: 20 },
+                    }}
+                  />
+                }
+                variant="contained"
+                fullWidth
+                sx={{
+                  textTransform: "none",
+                  bgcolor: "var(--mui-palette-grey-100)",
+                  color: "var(--mui-palette-grey-900)",
+                }}
+              >
+                Se connecter
+              </Button>
+
+              <Typography align="center">ou</Typography>
+              <Button
+                variant="contained"
+                startIcon={
+                  <Google
+                    sx={{
+                      width: { xs: 20 },
+                      height: { xs: 20 },
+                    }}
+                  />
+                }
+                onClick={handleGoogleLogin}
+                sx={{
+                  textTransform: "none",
+                  bgcolor: "var(--mui-palette-grey-100)",
+                  color: "var(--mui-palette-grey-900)",
+                }}
+              >
                 Se connecter
               </Button>
             </Box>
