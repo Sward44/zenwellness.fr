@@ -1,6 +1,8 @@
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
+import EmailProvider from "next-auth/providers/email";
 import * as bcrypt from "bcrypt";
+import { sendVerificationRequest } from "@/email/sendEmail";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "@/utils/prisma";
 import { ambassadeur, admin } from "@/utils/Habilitation";
@@ -17,6 +19,14 @@ export const authOptions = {
     secret: process.env.NEXTAUTH_SECRET,
   },
   providers: [
+    EmailProvider({
+      from: process.env.EMAIL_FROM,
+      sendVerificationRequest({
+        identifier: email,
+        url,
+        provider: { from },
+      }) {},
+    }),
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
@@ -37,7 +47,6 @@ export const authOptions = {
       },
 
       async authorize(credentials) {
-        debugger;
         const user = await prisma.email.findUnique({
           email: credentials?.username,
         });
@@ -65,8 +74,18 @@ export const authOptions = {
 
   callbacks: {
     async jwt({ token, user, account, profile }) {
+      console.log(
+        "User : ",
+        user,
+        "token : ",
+        token,
+        "Account :",
+        account,
+        "Profile :",
+        profile,
+      );
       if (user && account?.provider === "google") {
-        const userPerso = await prisma.Email.findUnique({
+        const userPerso = await prisma.email.findUnique({
           where: { email: profile.email },
         });
         let role;

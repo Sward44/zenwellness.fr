@@ -20,22 +20,32 @@ export default function LoginModal() {
     signIn("google", { callbackUrl: "/" });
   };
 
-  const handleEmailLogin = async (event) => {
+  async function handleEmailLogin(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
     const email = formData.get("email");
+    const search = await prisma.email.findUnique({ where: { email: email } });
+    if (!search) {
+      return null;
+    }
     const password = formData.get("password");
-    const result = await signIn("credentials", {
-      redirect: false,
-      email,
-      password,
-    });
+    let result;
+    if (!password) {
+      result = await signIn("email", { redirect: false, email });
+    } else {
+      result = await signIn("credentials", {
+        redirect: false,
+        email,
+        password,
+      });
+    }
+
     if (result?.error) {
       console.error("Erreur de connexion:", result.error);
     } else {
       closeModal();
     }
-  };
+  }
 
   return (
     <Dialog open={isOpen} onClose={closeModal} maxWidth="xs" fullWidth>

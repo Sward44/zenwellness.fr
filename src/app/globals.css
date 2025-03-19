@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+@variant dark (&:where([data-theme="dark"] *));
 @font-face {
   font-family: Raleway;
   src: url("./fonts/Raleway-Regular.ttf");
@@ -8,7 +9,58 @@
 }
 
 @theme {
-  --color-*: initial;
+  --drop-shadow-dark: 1px 1px 1.5px rgba(245, 245, 245, 0.04);
+  --drop-shadow-dark-hover: 1px 1px 2.5px rgba(245, 245, 245, 0.12);
+  --shadow-dark: 0px 6px 16px rgba(245, 245, 245, 0.08);
+
+  --color-wild-sand-50: #f5f5f5;
+  --color-wild-sand-100: #efefef;
+  --color-wild-sand-200: #dcdcdc;
+  --color-wild-sand-300: #bdbdbd;
+  --color-wild-sand-400: #989898;
+  --color-wild-sand-500: #7c7c7c;
+  --color-wild-sand-600: #656565;
+  --color-wild-sand-700: #525252;
+  --color-wild-sand-800: #464646;
+  --color-wild-sand-900: #3d3d3d;
+  --color-wild-sand-950: #292929;
+
+  --color-vida-loca-50: #f2f9ec;
+  --color-vida-loca-100: #e3f2d5;
+  --color-vida-loca-200: #c8e7af;
+  --color-vida-loca-300: #a6d680;
+  --color-vida-loca-400: #86c358;
+  --color-vida-loca-500: #68a83a;
+  --color-vida-loca-600: #518a2c;
+  --color-vida-loca-700: #3d6724;
+  --color-vida-loca-800: #345222;
+  --color-vida-loca-900: #2d4720;
+  --color-vida-loca-950: #15260d;
+
+  --color-dell-50: #f4fde8;
+  --color-dell-100: #e4f9ce;
+  --color-dell-200: #caf4a2;
+  --color-dell-300: #a7eb6b;
+  --color-dell-400: #87dd3e;
+  --color-dell-500: #67c31f;
+  --color-dell-600: #4e9b15;
+  --color-dell-700: #3c7615;
+  --color-dell-800: #376618;
+  --color-dell-900: #2d5017;
+  --color-dell-950: #142c07;
+
+  --color-marigold-yellow-50: #fefbec;
+  --color-marigold-yellow-100: #fcf4c9;
+  --color-marigold-yellow-200: #f7e47b;
+  --color-marigold-yellow-300: #f5d754;
+  --color-marigold-yellow-400: #f2c42d;
+  --color-marigold-yellow-500: #eba515;
+  --color-marigold-yellow-600: #d07f0f;
+  --color-marigold-yellow-700: #ad5b10;
+  --color-marigold-yellow-800: #8c4714;
+  --color-marigold-yellow-900: #743b13;
+  --color-marigold-yellow-950: #421e06;
+
   --color-blanc: #f5f5f5;
   --color-jaune: #f7e47b;
   --color-vert: #518a2c;
@@ -16,9 +68,11 @@
   --font-raleway: Raleway, "sans-serif";
   --font-segoe: Segoe, "sans-serif";
 }
-
+* {
+  @apply transition-all duration-300;
+}
 :root {
-  --background: #f5f5f5;
+  --background: #1a1a1a;
   --foreground: #171717;
 }
 
